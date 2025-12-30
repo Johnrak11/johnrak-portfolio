@@ -8,10 +8,11 @@ if [ -f ./.env ]; then
 fi
 
 APP_ENV=${APP_ENV:-production}
+PROJECT_NAME="johnrak-portfolio"
 
 if [ "$APP_ENV" = "production" ]; then
-  docker compose --profile prod pull
-  docker compose --profile prod up -d --remove-orphans --no-build
+  docker compose -p "$PROJECT_NAME" --profile prod pull
+  docker compose -p "$PROJECT_NAME" --profile prod up -d --remove-orphans --no-build
 else
-  docker compose --profile dev up -d --remove-orphans
+  docker compose -p "$PROJECT_NAME" --profile dev up -d --remove-orphans
 fi

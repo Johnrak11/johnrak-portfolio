@@ -7,8 +7,9 @@ services:
       args:
         VITE_ADMIN_API_BASE_URL: ${VITE_ADMIN_API_BASE_URL}
     ports:
-      - "80:80"
-      - "443:443"
+      - "${PORT:-8080}:80"
+      # - "443:443" # Disable https on container directly to avoid conflict with existing Caddy
+
     env_file: .env
     volumes:
       - caddy_data:/data

@@ -44,6 +44,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             set -eu
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
             cd "${{ secrets.DEPLOY_PATH }}"
             git fetch --all --prune
             git reset --hard origin/main
