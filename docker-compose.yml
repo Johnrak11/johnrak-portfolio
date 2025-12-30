@@ -11,6 +11,8 @@ services:
       - "80"
     networks:
       - web_gateway
+    environment:
+      - SITE_ADDRESS=:80
     env_file: .env
     volumes:
       - caddy_data:/data
