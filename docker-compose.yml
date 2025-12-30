@@ -1,15 +1,16 @@
 services:
   web:
     profiles: ["prod"]
+    container_name: johnrak-portfolio
     image: ghcr.io/${GHCR_IMAGE:-johnrak11/johnrak-portfolio}:${IMAGE_TAG:-latest}
     build:
       context: .
       args:
         VITE_ADMIN_API_BASE_URL: ${VITE_ADMIN_API_BASE_URL}
-    ports:
-      - "${PORT:-8080}:80"
-      # - "443:443" # Disable https on container directly to avoid conflict with existing Caddy
-
+    expose:
+      - "80"
+    networks:
+      - web_gateway
     env_file: .env
     volumes:
       - caddy_data:/data
@@ -35,3 +36,7 @@ volumes:
   caddy_data:
   caddy_config:
   node_modules:
+
+networks:
+  web_gateway:
+    external: true
