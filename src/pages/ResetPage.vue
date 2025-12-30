@@ -10,7 +10,7 @@ import { Separator } from "@/components/ui/separator"
 
 const store = useProfileStore()
 
-const apiBase = "https://admin.johnrak.online"
+const apiBase = (import.meta.env.VITE_ADMIN_API_BASE_URL || "https://admin.johnrak.online").replace(/\/$/, "")
 const token = ref("")
 const otp = ref("")
 const loading = ref(false)
@@ -18,8 +18,13 @@ const error = ref<string | null>(null)
 const ok = ref<string | null>(null)
 
 async function syncFromAdmin() {
-  if (!token.value || !otp.value) {
+  const otpValue = otp.value.trim()
+  if (!token.value.trim() || !otpValue) {
     error.value = "Please enter both Token and OTP."
+    return
+  }
+  if (!/^\d{6}$/.test(otpValue)) {
+    error.value = "OTP must be a 6-digit code."
     return
   }
 
@@ -28,8 +33,6 @@ async function syncFromAdmin() {
   ok.value = null
 
   try {
-    // Assuming the endpoint expects a POST with token and otp
-    // Adjust the URL and payload format as needed based on actual API
     const url = `${apiBase}/api/client/portfolio/sync`
     
     const res = await fetch(url, {
@@ -39,8 +42,8 @@ async function syncFromAdmin() {
         "Accept": "application/json"
       },
       body: JSON.stringify({
-        token: token.value,
-        otp: otp.value
+        token: token.value.trim(),
+        otp: otpValue
       })
     })
 
@@ -60,15 +63,6 @@ async function syncFromAdmin() {
   } finally {
     loading.value = false
   }
-}
-
-function downloadJson() {
-  const blob = new Blob([JSON.stringify(store.profile, null, 2)], { type: "application/json" })
-  const a = document.createElement("a")
-  a.href = URL.createObjectURL(blob)
-  a.download = "profile.json"
-  a.click()
-  URL.revokeObjectURL(a.href)
 }
 </script>
 
