@@ -11,8 +11,10 @@ APP_ENV=${APP_ENV:-production}
 PROJECT_NAME="johnrak-portfolio"
 
 if [ "$APP_ENV" = "production" ]; then
-  docker compose -p "$PROJECT_NAME" --profile prod pull
-  docker compose -p "$PROJECT_NAME" --profile prod up -d --remove-orphans --no-build
+  # Try to pull, but don't fail if we can't (e.g. no auth or image doesn't exist yet)
+  docker compose -p "$PROJECT_NAME" --profile prod pull || true
+  # Build from source if needed (fixes "no image" error)
+  docker compose -p "$PROJECT_NAME" --profile prod up -d --remove-orphans --build
 else
-  docker compose -p "$PROJECT_NAME" --profile dev up -d --remove-orphans
+  docker compose -p "$PROJECT_NAME" --profile dev up -d --remove-orphans --build
 fi
