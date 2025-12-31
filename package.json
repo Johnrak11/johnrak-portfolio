@@ -13,9 +13,12 @@
     "@iconify-json/radix-icons": "^1.2.5",
     "@iconify/vue": "^4.3.0",
     "@vueuse/core": "^12.8.2",
+    "axios": "^1.13.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "github-markdown-css": "^5.8.1",
     "lucide-vue-next": "^0.507.0",
+    "markdown-it": "^14.1.0",
     "pinia": "^2.3.1",
     "radix-vue": "^1.9.15",
     "tailwind-merge": "^2.6.0",
@@ -23,6 +26,7 @@
     "vue-router": "^4.5.0"
   },
   "devDependencies": {
+    "@types/markdown-it": "^14.1.2",
     "@types/node": "^22.10.5",
     "@vitejs/plugin-vue": "^5.2.1",
     "autoprefixer": "^10.4.20",

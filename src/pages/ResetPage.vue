@@ -110,12 +110,6 @@ async function syncFromAdmin() {
       </CardContent>
     </Card>
 
-    <div class="mt-8 flex justify-center gap-4">
-      <Button variant="ghost" size="sm" @click="store.resetToFile">
-        Reset to Default (File)
-      </Button>
-    </div>
-    
     <div class="mt-4 text-center text-xs text-muted-foreground">
       Current Data Source: <span class="font-medium text-foreground uppercase">{{ store.source }}</span>
     </div>
