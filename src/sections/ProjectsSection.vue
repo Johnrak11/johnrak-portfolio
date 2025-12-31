@@ -4,49 +4,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { useIntervalFn } from "@vueuse/core";
-import { ref, onMounted, computed } from "vue";
+import { computed } from "vue";
 import { Github, ExternalLink } from "lucide-vue-next";
 
 const props = defineProps<{ profile: Profile }>();
 
-const scrollContainer = ref<HTMLElement | null>(null);
-const isAutoScrolling = ref(true);
-
 const isCarousel = computed(() => props.profile.projects.length > 3);
-
-// Auto scroll logic
-const { pause, resume } = useIntervalFn(() => {
-  if (!scrollContainer.value || !isAutoScrolling.value || !isCarousel.value)
-    return;
-
-  if (
-    scrollContainer.value.scrollLeft >=
-    scrollContainer.value.scrollWidth - scrollContainer.value.clientWidth
-  ) {
-    scrollContainer.value.scrollLeft = 0;
-  } else {
-    scrollContainer.value.scrollLeft += 1;
-  }
-}, 30);
-
-const pauseScroll = () => {
-  if (!isCarousel.value) return;
-  isAutoScrolling.value = false;
-  pause();
-};
-
-const resumeScroll = () => {
-  if (!isCarousel.value) return;
-  isAutoScrolling.value = true;
-  resume();
-};
-
-onMounted(() => {
-  if (isCarousel.value) {
-    resume();
-  }
-});
 </script>
 
 <template>
@@ -61,12 +24,7 @@ onMounted(() => {
     <!-- Carousel Layout (> 3 items) -->
     <div
       v-if="isCarousel"
-      ref="scrollContainer"
-      class="flex overflow-x-auto gap-4 pb-4 max-w-full no-scrollbar cursor-grab active:cursor-grabbing"
-      @mouseenter="pauseScroll"
-      @mouseleave="resumeScroll"
-      @touchstart="pauseScroll"
-      @touchend="resumeScroll"
+      class="flex overflow-x-auto gap-4 pb-4 max-w-full cursor-grab active:cursor-grabbing"
     >
       <Card
         v-for="p in profile.projects"

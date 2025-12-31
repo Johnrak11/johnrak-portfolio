@@ -2,13 +2,8 @@
 import type { Profile } from "@/types/profile";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { useIntervalFn } from "@vueuse/core";
-import { ref, onMounted } from "vue";
 
 const props = defineProps<{ profile: Profile }>();
-
-const scrollContainer = ref<HTMLElement | null>(null);
-const isAutoScrolling = ref(true);
 
 // Function to map skill name to a logo URL (using devicons or simple text if not found)
 // In a real app, you might want to have these URLs in your profile.json or a local assets map
@@ -39,40 +34,6 @@ const getSkillLogo = (skill: string) => {
   const name = map[skill.toLowerCase()] || s;
   return `https://cdn.simpleicons.org/${name}`;
 };
-
-// Auto scroll logic
-const { pause, resume } = useIntervalFn(() => {
-  if (!scrollContainer.value || !isAutoScrolling.value) return;
-
-  if (
-    scrollContainer.value.scrollLeft >=
-    scrollContainer.value.scrollWidth - scrollContainer.value.clientWidth
-  ) {
-    scrollContainer.value.scrollLeft = 0;
-  } else {
-    scrollContainer.value.scrollLeft += 1;
-  }
-}, 20);
-
-const onScroll = () => {
-  // If user manually scrolls, pause auto-scroll temporarily
-  // We can detect manual scroll if the scroll position changes significantly differently than our auto-scroll
-  // For simplicity, let's just pause on mouse enter/touch
-};
-
-const pauseScroll = () => {
-  isAutoScrolling.value = false;
-  pause();
-};
-
-const resumeScroll = () => {
-  isAutoScrolling.value = true;
-  resume();
-};
-
-onMounted(() => {
-  resume();
-});
 </script>
 
 <template>
@@ -81,12 +42,7 @@ onMounted(() => {
     <Separator class="my-4" />
 
     <div
-      ref="scrollContainer"
-      class="flex overflow-x-auto gap-4 pb-4 max-w-full no-scrollbar cursor-grab active:cursor-grabbing"
-      @mouseenter="pauseScroll"
-      @mouseleave="resumeScroll"
-      @touchstart="pauseScroll"
-      @touchend="resumeScroll"
+      class="flex overflow-x-auto gap-4 pb-4 max-w-full cursor-grab active:cursor-grabbing"
     >
       <Card
         v-for="skill in profile.skills"

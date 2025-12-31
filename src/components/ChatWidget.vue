@@ -1,8 +1,8 @@
 <template>
   <div>
-    <!-- Chat Button -->
+    <!-- Chat Button (Mobile Only) -->
     <button
-      class="fixed bottom-4 right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-all hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 sm:h-auto sm:w-auto sm:px-4 sm:py-3"
+      class="fixed bottom-4 right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-all hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 sm:hidden"
       @click="open = !open"
     >
       <svg
@@ -24,7 +24,7 @@
         <path d="M15 13v2" />
         <path d="M9 13v2" />
       </svg>
-      <span class="hidden font-medium sm:inline ml-2">Ask about me</span>
+      <span class="sr-only">Ask about me</span>
     </button>
 
     <!-- Chat Window -->
@@ -204,7 +204,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, nextTick, watch } from "vue";
+import { ref, nextTick, watch, onMounted, onUnmounted } from "vue";
 import Button from "@/components/ui/button/Button.vue";
 import Input from "@/components/ui/input/Input.vue";
 import { api } from "@/lib/api";
@@ -225,6 +225,20 @@ const loading = ref(false);
 const draft = ref("");
 const msgs = ref<Message[]>([]);
 const scrollArea = ref<HTMLDivElement | null>(null);
+
+// Expose open state to parent/global bus if needed, or use a custom event listener
+const toggleChat = () => {
+  open.value = !open.value;
+};
+
+// Listen for custom event 'toggle-chat'
+onMounted(() => {
+  window.addEventListener("toggle-chat", toggleChat);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("toggle-chat", toggleChat);
+});
 
 function renderMarkdown(text: string) {
   return md.render(text);

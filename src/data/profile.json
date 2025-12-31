@@ -3,9 +3,10 @@
     "name": "Vorak Yun",
     "headline": "Web Software Engineer",
     "location": "Phnom Penh, Cambodia",
+    "aboutMe": "With a combination of academic and practical experience, I am an effective team member or leader. By completing numerous projects, I have honed my problem-solving skills and developed expertise in both back-end and front-end processes, with a strong foundation in algorithms. I am dedicated to continuously improving my hard skills to stay current with industry trends and emerging technologies.",
     "summary": "With a combination of academic and practical experience, I am an effective team member or leader. By completing numerous projects, I have honed my problem-solving skills and developed expertise in both back-end and front-end processes, with a strong foundation in algorithms. I am dedicated to continuously improving my hard skills to stay current with industry trends and emerging technologies.",
     "avatarUrl": "",
-    "email": "you@example.com",
+    "email": "vorakyun@gmail.com",
     "links": [
       {
         "label": "LinkedIn",
@@ -186,18 +187,18 @@
   ],
   "education": [
     {
-      "school": "Passerelles Numériques Cambodia (PNC)",
-      "degree": "Associate's degree, IT Web Programming",
-      "start": "2021-01",
-      "end": "2023-12",
-      "url": "https://www.passerellesnumeriques.org/fr/"
-    },
-    {
       "school": "Asia Euro University (AEU)",
       "degree": "Bachelor's degree, Computer Science",
       "start": "2021",
       "end": "Present",
       "url": "https://www.aeu.edu.kh/kh"
+    },
+    {
+      "school": "Passerelles Numériques Cambodia (PNC)",
+      "degree": "Associate's degree, IT Web Programming",
+      "start": "2021-01",
+      "end": "2023-12",
+      "url": "https://www.passerellesnumeriques.org/fr/"
     }
   ]
 }

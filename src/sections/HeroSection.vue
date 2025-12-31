@@ -64,9 +64,6 @@ onMounted(() => {
           <Button variant="outline" as-child>
             <a :href="resumeUrl" download="Vorak_Yun_CV.pdf">Download CV</a>
           </Button>
-          <Button variant="ghost" as-child>
-            <router-link to="/reset">Sync from Admin</router-link>
-          </Button>
         </div>
       </div>
 
