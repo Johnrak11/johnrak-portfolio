@@ -9,7 +9,7 @@ import resumeUrl from "@/assets/Vorak-Yun-VC.pdf";
 const props = defineProps<{ profile: Profile }>();
 
 const displayedText = ref("");
-const fullText = computed(() => `Hi There, I'm ${props.profile.basics.name}`);
+const fullText = computed(() => `Hi There, I'm ${"Vorak Yun"}`);
 const isTyping = ref(true);
 
 onMounted(() => {
