@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import SiteHeader from "@/components/SiteHeader.vue"
 import SiteFooter from "@/components/SiteFooter.vue"
+import ChatWidget from "@/components/ChatWidget.vue"
 </script>
 
 <template>
@@ -10,5 +11,6 @@ import SiteFooter from "@/components/SiteFooter.vue"
       <router-view />
     </main>
     <SiteFooter />
+    <ChatWidget />
   </div>
 </template>
