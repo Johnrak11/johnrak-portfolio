@@ -16,7 +16,6 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd ~/projects/johnrak-portfolio
-            git pull origin main
-            docker compose down
-            docker compose --profile prod up -d --build
+            git pull origin prod
+            sh deploy.sh
             docker image prune -f
