@@ -42,7 +42,7 @@ const getSkillLogo = (skill: string) => {
     <Separator class="my-4" />
 
     <div
-      class="flex overflow-x-auto gap-4 pb-4 max-w-[100vw] sm:max-w-full cursor-grab active:cursor-grabbing pr-4 sm:pr-0"
+      class="flex overflow-x-auto gap-4 pb-4 max-w-full cursor-grab active:cursor-grabbing pr-4 sm:pr-0"
     >
       <Card
         v-for="skill in profile.skills"

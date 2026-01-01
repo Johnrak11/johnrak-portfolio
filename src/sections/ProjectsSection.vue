@@ -24,7 +24,7 @@ const isCarousel = computed(() => props.profile.projects.length > 3);
     <!-- Carousel Layout (> 3 items) -->
     <div
       v-if="isCarousel"
-      class="flex overflow-x-auto gap-4 pb-4 max-w-[100vw] sm:max-w-full cursor-grab active:cursor-grabbing pr-4 sm:pr-0"
+      class="flex overflow-x-auto gap-4 pb-4 max-w-full cursor-grab active:cursor-grabbing pr-4 sm:pr-0"
     >
       <Card
         v-for="p in profile.projects"

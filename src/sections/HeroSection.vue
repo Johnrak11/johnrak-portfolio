@@ -36,11 +36,11 @@ onMounted(() => {
     <div class="grid gap-6 md:grid-cols-12 md:items-center">
       <div class="md:col-span-8">
         <Badge variant="secondary" class="mb-3"
-          >Open to Work • 2025 • Portfolio</Badge
+          >Open to Work • 2026 • Portfolio</Badge
         >
 
         <h1
-          class="text-balance text-3xl font-semibold tracking-tight md:text-5xl min-h-[1.2em]"
+          class="text-balance text-3xl font-semibold tracking-tight md:text-5xl min-h-[1.2em] break-words"
         >
           {{ displayedText
           }}<span v-if="isTyping" class="animate-pulse">|</span>
