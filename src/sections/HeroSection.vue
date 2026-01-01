@@ -51,7 +51,7 @@ onMounted(() => {
         </p>
 
         <p class="mt-4 max-w-2xl text-pretty text-muted-foreground">
-          {{ profile.basics.summary }}
+          {{ profile.basics.aboutMe }}
         </p>
 
         <div class="mt-6 flex flex-wrap gap-2">
