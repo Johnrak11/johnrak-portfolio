@@ -48,7 +48,7 @@ import ModeToggle from "@/components/ModeToggle.vue";
       <div class="flex items-center gap-2">
         <ModeToggle />
         <Button
-          class="hidden md:inline-flex bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5"
+          class="inline-flex items-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg transition-all duration-300 active:scale-95 sm:px-4 sm:py-2 px-3"
           @click="toggleChat"
         >
           <svg
@@ -61,7 +61,7 @@ import ModeToggle from "@/components/ModeToggle.vue";
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
-            class="mr-2 h-4 w-4 animate-pulse"
+            class="h-5 w-5 sm:h-4 sm:w-4 animate-pulse"
           >
             <path d="M12 8V4H8" />
             <rect width="16" height="12" x="4" y="8" rx="2" />
@@ -70,7 +70,7 @@ import ModeToggle from "@/components/ModeToggle.vue";
             <path d="M15 13v2" />
             <path d="M9 13v2" />
           </svg>
-          Ask about me
+          <span class="hidden sm:inline font-medium">Ask about me</span>
         </Button>
       </div>
     </div>
