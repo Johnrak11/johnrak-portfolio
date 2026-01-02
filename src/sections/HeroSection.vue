@@ -72,6 +72,13 @@ onMounted(() => {
           <CardContent class="p-0">
             <div class="relative aspect-square w-full bg-muted">
               <img
+                v-if="profile.basics.avatarUrl"
+                :src="profile.basics.avatarUrl"
+                alt="Profile Photo"
+                class="absolute inset-0 h-full w-full object-cover"
+              />
+              <img
+                v-else
                 src="@/assets/profile-photo.JPG"
                 alt="Profile Photo"
                 class="absolute inset-0 h-full w-full object-cover"
