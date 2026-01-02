@@ -13,7 +13,10 @@ const isCarousel = computed(() => props.profile.projects.length > 3);
 </script>
 
 <template>
-  <section id="projects" class="py-10">
+  <section
+    id="projects"
+    class="py-10 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-300 fill-mode-both"
+  >
     <div class="flex items-end justify-between gap-4">
       <h2 class="text-2xl font-semibold tracking-tight">Projects</h2>
       <p class="text-sm text-muted-foreground">Selected work</p>
@@ -29,22 +32,26 @@ const isCarousel = computed(() => props.profile.projects.length > 3);
       <Card
         v-for="p in profile.projects"
         :key="p.name"
-        class="group flex-none w-[350px] transition-transform hover:scale-[1.02]"
+        class="group flex-none w-[85vw] sm:w-[350px] transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-primary/50"
       >
         <CardContent class="p-6 h-full flex flex-col justify-between">
           <div class="flex flex-col gap-4">
             <div>
-              <div class="flex items-center justify-between">
-                <div class="text-lg font-semibold">{{ p.name }}</div>
+              <div class="flex items-center justify-between mb-2">
                 <div
-                  class="flex gap-2 opacity-0 transition group-hover:opacity-100"
+                  class="text-xl font-bold group-hover:text-primary transition-colors"
+                >
+                  {{ p.name }}
+                </div>
+                <div
+                  class="flex gap-2 opacity-100 sm:opacity-0 transition-all duration-300 group-hover:opacity-100"
                 >
                   <Button
                     v-for="link in p.links"
                     :key="link.label"
-                    variant="outline"
+                    variant="ghost"
                     size="icon"
-                    class="h-8 w-8"
+                    class="h-8 w-8 hover:bg-primary/10 hover:text-primary"
                     as-child
                   >
                     <a
@@ -76,39 +83,62 @@ const isCarousel = computed(() => props.profile.projects.length > 3);
     </div>
 
     <!-- Grid Layout (<= 3 items) -->
-    <div v-else class="grid gap-4 md:grid-cols-2">
-      <Card v-for="p in profile.projects" :key="p.name" class="group">
-        <CardContent class="p-6">
-          <div class="flex items-start justify-between gap-4">
+    <div v-else class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <Card
+        v-for="p in profile.projects"
+        :key="p.name"
+        class="group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-primary/50"
+      >
+        <CardContent class="p-6 h-full flex flex-col justify-between">
+          <div class="flex flex-col gap-4">
             <div>
-              <div class="text-lg font-semibold">{{ p.name }}</div>
-              <p class="mt-1 text-sm text-muted-foreground">{{ p.tagline }}</p>
-            </div>
-
-            <div
-              class="flex gap-2 opacity-0 transition group-hover:opacity-100"
-            >
-              <Button
-                v-for="link in p.links"
-                :key="link.label"
-                variant="outline"
-                size="sm"
-                class="gap-2"
-                as-child
+              <div class="flex items-center justify-between mb-2">
+                <div
+                  class="text-xl font-bold group-hover:text-primary transition-colors"
+                >
+                  {{ p.name }}
+                </div>
+                <div
+                  class="flex gap-2 opacity-100 sm:opacity-0 transition-all duration-300 group-hover:opacity-100"
+                >
+                  <Button
+                    v-for="link in p.links"
+                    :key="link.label"
+                    variant="ghost"
+                    size="icon"
+                    class="h-8 w-8 hover:bg-primary/10 hover:text-primary"
+                    as-child
+                  >
+                    <a
+                      :href="link.url"
+                      target="_blank"
+                      rel="noreferrer"
+                      :title="link.label"
+                    >
+                      <Github v-if="link.label === 'GitHub'" class="h-4 w-4" />
+                      <ExternalLink v-else class="h-4 w-4" />
+                      <span class="sr-only">{{ link.label }}</span>
+                    </a>
+                  </Button>
+                </div>
+              </div>
+              <p
+                class="text-sm text-muted-foreground line-clamp-2 leading-relaxed"
               >
-                <a :href="link.url" target="_blank" rel="noreferrer">
-                  <Github v-if="link.label === 'GitHub'" class="h-4 w-4" />
-                  <ExternalLink v-else class="h-4 w-4" />
-                  {{ link.label }}
-                </a>
-              </Button>
+                {{ p.tagline }}
+              </p>
             </div>
           </div>
 
-          <div class="mt-4 flex flex-wrap gap-2">
-            <Badge v-for="s in p.stack" :key="s" variant="secondary">{{
-              s
-            }}</Badge>
+          <div class="mt-4 flex flex-wrap gap-2 pt-4 border-t border-border/50">
+            <Badge
+              v-for="s in p.stack"
+              :key="s"
+              variant="secondary"
+              class="bg-secondary/50 hover:bg-secondary transition-colors"
+            >
+              {{ s }}
+            </Badge>
           </div>
         </CardContent>
       </Card>

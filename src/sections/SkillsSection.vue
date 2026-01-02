@@ -37,26 +37,27 @@ const getSkillLogo = (skill: string) => {
 </script>
 
 <template>
-  <section id="skills" class="py-10">
+  <section id="skills" class="py-10 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-500 fill-mode-both">
     <h2 class="text-2xl font-semibold tracking-tight">Skills</h2>
     <Separator class="my-4" />
 
     <div
-      class="flex overflow-x-auto gap-4 pb-4 max-w-full cursor-grab active:cursor-grabbing pr-4 sm:pr-0"
+      class="flex flex-wrap gap-4 justify-center sm:justify-start"
     >
       <Card
         v-for="skill in profile.skills"
         :key="skill"
-        class="flex-none w-[120px] h-[120px] flex items-center justify-center transition-transform hover:scale-105"
+        class="group relative w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-xl hover:border-primary/50 hover:-translate-y-1 bg-card/50 backdrop-blur-sm"
       >
-        <CardContent class="p-4 flex flex-col items-center gap-3">
+        <div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl"></div>
+        <CardContent class="p-2 flex flex-col items-center gap-3 z-10">
           <img
             :src="getSkillLogo(skill)"
             :alt="skill"
-            class="w-10 h-10 object-contain"
+            class="w-10 h-10 sm:w-12 sm:h-12 object-contain transition-transform duration-500 group-hover:rotate-[360deg]"
             @error="(e) => (e.target as HTMLImageElement).src = 'https://cdn.simpleicons.org/codeigniter'"
           />
-          <span class="text-sm font-medium text-center text-muted-foreground">{{
+          <span class="text-xs sm:text-sm font-medium text-center text-muted-foreground group-hover:text-primary transition-colors">{{
             skill
           }}</span>
         </CardContent>

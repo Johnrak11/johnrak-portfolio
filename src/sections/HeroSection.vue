@@ -32,7 +32,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section class="py-10 md:py-16">
+  <section class="py-10 md:py-16 animate-in fade-in slide-in-from-bottom-8 duration-1000">
     <div class="grid gap-6 md:grid-cols-12 md:items-center">
       <div class="md:col-span-8">
         <Badge variant="secondary" class="mb-3"
@@ -60,9 +60,6 @@ onMounted(() => {
           </Button>
           <Button variant="outline" as-child>
             <a href="#contact">Contact</a>
-          </Button>
-          <Button variant="outline" as-child>
-            <a :href="resumeUrl" download="Vorak_Yun_CV.pdf">Download CV</a>
           </Button>
         </div>
       </div>

@@ -7,7 +7,7 @@ defineProps<{ profile: Profile }>()
 </script>
 
 <template>
-  <section id="about" class="py-10">
+  <section id="about" class="py-10 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-100 fill-mode-both">
     <div class="flex items-end justify-between gap-4">
       <h2 class="text-2xl font-semibold tracking-tight">About</h2>
       <div class="text-xs text-muted-foreground">Data source: JSON</div>
