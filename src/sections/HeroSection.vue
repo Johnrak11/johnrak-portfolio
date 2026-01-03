@@ -4,13 +4,18 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { ref, onMounted, computed } from "vue";
-import resumeUrl from "@/assets/Vorak-Yun-VC.pdf";
+import defaultProfilePhoto from "@/assets/profile-photo.JPG";
 
 const props = defineProps<{ profile: Profile }>();
 
 const displayedText = ref("");
 const fullText = computed(() => `Hi There, I'm ${"Vorak Yun"}`);
 const isTyping = ref(true);
+
+const onAvatarError = (ev: Event) => {
+  const img = ev.target as HTMLImageElement | null;
+  if (img) img.src = defaultProfilePhoto;
+};
 
 onMounted(() => {
   let i = 0;
@@ -32,7 +37,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <section class="py-10 md:py-16 animate-in fade-in slide-in-from-bottom-8 duration-1000">
+  <section
+    class="py-10 md:py-16 animate-in fade-in slide-in-from-bottom-8 duration-1000"
+  >
     <div class="grid gap-6 md:grid-cols-12 md:items-center">
       <div class="md:col-span-8">
         <Badge variant="secondary" class="mb-3"
@@ -73,10 +80,11 @@ onMounted(() => {
                 :src="profile.basics.avatarUrl"
                 alt="Profile Photo"
                 class="absolute inset-0 h-full w-full object-cover"
+                @error="onAvatarError"
               />
               <img
                 v-else
-                src="@/assets/profile-photo.JPG"
+                :src="defaultProfilePhoto"
                 alt="Profile Photo"
                 class="absolute inset-0 h-full w-full object-cover"
               />
