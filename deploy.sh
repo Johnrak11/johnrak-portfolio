@@ -26,10 +26,10 @@ fi
 
 if [ "${BUILD_LOCALLY:-0}" = "1" ]; then
   # Vite inlines these at BUILD time, so they must be present here.
-  if [ -z "${VITE_PORTFOLIO_SHARED_SECRET:-}" ]; then
-    echo "ERROR: VITE_PORTFOLIO_SHARED_SECRET is not set in .env."
-    echo "       Without it src/lib/profileStore.ts skips the sync silently."
-    echo "       Copy PORTFOLIO_SHARED_SECRET from the admin's backend/.env."
+  if [ -z "${VITE_PORTFOLIO_API_TOKEN:-}" ]; then
+    echo "ERROR: VITE_PORTFOLIO_API_TOKEN is not set in .env."
+    echo "       Without it the profile sync is skipped and the AI chat 401s."
+    echo "       Generate a token in the admin panel under Security & Tokens."
     exit 1
   fi
   echo "==> BUILD_LOCALLY=1: building on this host"
