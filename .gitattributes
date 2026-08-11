@@ -1,0 +1,14 @@
+# Files below are executed or parsed on the Linux server. Force LF on
+# checkout for every platform: a CRLF shell script fails there with a
+# confusing "bad interpreter" error or a bare exit 127.
+#
+# Deliberately narrow — source files are left to core.autocrlf so this does
+# not churn every file in a Windows working copy.
+
+*.sh                text eol=lf
+*.conf              text eol=lf
+*.template          text eol=lf
+*.env               text eol=lf
+.env.example        text eol=lf
+docker-compose.yml  text eol=lf
+Dockerfile          text eol=lf

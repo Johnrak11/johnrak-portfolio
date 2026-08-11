@@ -1,21 +1,78 @@
-name: Deploy Portfolio
+name: Build and Deploy Portfolio
+
+# The image is built HERE and pulled by the droplet. Previously deploy.sh ran
+# `pull || true` and then always rebuilt, so every deploy compiled the SPA on
+# a 1 GB host that is also running MariaDB and php-fpm.
 
 on:
   push:
     branches: ["prod"]
+  workflow_dispatch:
+
+# GHCR requires a fully lowercase image reference, so the owner is written out
+# rather than taken from github.repository_owner ("Johnrak11").
+env:
+  IMAGE: ghcr.io/johnrak11/johnrak-portfolio
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Fails the run early rather than shipping a build where the sync
+      # silently no-ops because the variable was empty.
+      - name: Check the sync secret is configured
+        run: |
+          if [ -z "${{ secrets.VITE_PORTFOLIO_SHARED_SECRET }}" ]; then
+            echo "::error::Repository secret VITE_PORTFOLIO_SHARED_SECRET is not set."
+            echo "::error::Add it under Settings > Secrets and variables > Actions,"
+            echo "::error::copying PORTFOLIO_SHARED_SECRET from the admin backend/.env."
+            exit 1
+          fi
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          # NOTE: Vite inlines these into the public JS bundle, and build args
+          # are also visible in `docker history`. Only values safe to publish
+          # belong here.
+          build-args: |
+            VITE_ADMIN_API_BASE_URL=${{ vars.VITE_ADMIN_API_BASE_URL || 'https://admin.johnrak.online' }}
+            VITE_PORTFOLIO_SHARED_SECRET=${{ secrets.VITE_PORTFOLIO_SHARED_SECRET }}
+          tags: |
+            ${{ env.IMAGE }}:latest
+            ${{ env.IMAGE }}:${{ github.sha }}
+          cache-from: type=gha,scope=portfolio
+          cache-to: type=gha,mode=max,scope=portfolio
+
   deploy:
+    needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy to Server via SSH
+      - name: Deploy over SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
+            set -e
             cd ~/projects/johnrak-portfolio
-            git pull origin prod
-            sh deploy.sh
-            docker image prune -f
+            git fetch origin prod
+            git reset --hard origin/prod
+            chmod +x deploy.sh
+            IMAGE_TAG=${{ github.sha }} ./deploy.sh
