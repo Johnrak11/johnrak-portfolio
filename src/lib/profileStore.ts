@@ -37,10 +37,10 @@ export const useProfileStore = defineStore("profile", {
         import.meta.env.VITE_ADMIN_API_BASE_URL ||
         "https://admin.johnrak.online"
       ).replace(/\/$/, "");
-      const sharedSecret = import.meta.env.VITE_PORTFOLIO_SHARED_SECRET;
+      const apiToken = import.meta.env.VITE_PORTFOLIO_API_TOKEN;
 
-      if (!sharedSecret) {
-        console.warn("Skipping sync: VITE_PORTFOLIO_SHARED_SECRET not set");
+      if (!apiToken) {
+        console.warn("Skipping sync: VITE_PORTFOLIO_API_TOKEN not set");
         return;
       }
 
@@ -54,7 +54,7 @@ export const useProfileStore = defineStore("profile", {
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
-            "X-Portfolio-Key": sharedSecret,
+            "X-Portfolio-Key": apiToken,
           },
         });
 
@@ -68,7 +68,7 @@ export const useProfileStore = defineStore("profile", {
         }
 
         // Decrypt
-        const keyHash = CryptoJS.SHA256(sharedSecret);
+        const keyHash = CryptoJS.SHA256(apiToken);
         const iv = CryptoJS.enc.Base64.parse(json.iv);
         const decrypted = CryptoJS.AES.decrypt(json.payload, keyHash, {
           iv: iv,
