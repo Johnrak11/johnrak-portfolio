@@ -1,23 +1,32 @@
+# =============================================================
+#  johnrak-portfolio — static SPA behind the shared edge proxy.
+#
+#  No domain, no certificate volumes, no ACME email: the infra
+#  repo terminates TLS and routes by hostname.
+# =============================================================
+
 services:
   web:
     profiles: ["prod"]
-    container_name: johnrak-portfolio
+    container_name: portfolio-web
+    # Built and pushed by CI. `build` remains as a fallback for local work
+    # and for BUILD_LOCALLY=1 ./deploy.sh
     image: ghcr.io/${GHCR_IMAGE:-johnrak11/johnrak-portfolio}:${IMAGE_TAG:-latest}
     build:
       context: .
       args:
         VITE_ADMIN_API_BASE_URL: ${VITE_ADMIN_API_BASE_URL}
+        VITE_PORTFOLIO_SHARED_SECRET: ${VITE_PORTFOLIO_SHARED_SECRET}
     expose:
       - "80"
     networks:
-      - web_gateway
-    environment:
-      - SITE_ADDRESS=:80
-    env_file: .env
-    volumes:
-      - caddy_data:/data
-      - caddy_config:/config
+      - edge
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
 
   dev:
     profiles: ["dev"]
@@ -34,11 +43,10 @@ services:
     command: sh -c "npm ci && npm run dev -- --host 0.0.0.0 --port 5173"
     restart: unless-stopped
 
-volumes:
-  caddy_data:
-  caddy_config:
-  node_modules:
-
 networks:
-  web_gateway:
+  edge:
+    name: infra_edge
     external: true
+
+volumes:
+  node_modules:
