@@ -16,7 +16,7 @@ services:
       context: .
       args:
         VITE_ADMIN_API_BASE_URL: ${VITE_ADMIN_API_BASE_URL}
-        VITE_PORTFOLIO_SHARED_SECRET: ${VITE_PORTFOLIO_SHARED_SECRET}
+        VITE_PORTFOLIO_API_TOKEN: ${VITE_PORTFOLIO_API_TOKEN}
     expose:
       - "80"
     networks:

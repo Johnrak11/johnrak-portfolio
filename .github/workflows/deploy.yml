@@ -33,12 +33,12 @@ jobs:
 
       # Fails the run early rather than shipping a build where the sync
       # silently no-ops because the variable was empty.
-      - name: Check the sync secret is configured
+      - name: Check the API token is configured
         run: |
-          if [ -z "${{ secrets.VITE_PORTFOLIO_SHARED_SECRET }}" ]; then
-            echo "::error::Repository secret VITE_PORTFOLIO_SHARED_SECRET is not set."
-            echo "::error::Add it under Settings > Secrets and variables > Actions,"
-            echo "::error::copying PORTFOLIO_SHARED_SECRET from the admin backend/.env."
+          if [ -z "${{ vars.VITE_PORTFOLIO_API_TOKEN }}" ]; then
+            echo "::error::Repository variable VITE_PORTFOLIO_API_TOKEN is not set."
+            echo "::error::Add it under Settings > Secrets and variables > Actions > Variables,"
+            echo "::error::using a token from the admin panel's Security & Tokens page."
             exit 1
           fi
 
@@ -49,10 +49,12 @@ jobs:
           push: true
           # NOTE: Vite inlines these into the public JS bundle, and build args
           # are also visible in `docker history`. Only values safe to publish
-          # belong here.
+          # belong here — which is why the token is a repository *variable*, not
+          # a secret: a secret cannot be read back, so drift between it and the
+          # admin's api_clients table would be invisible instead of diagnosable.
           build-args: |
             VITE_ADMIN_API_BASE_URL=${{ vars.VITE_ADMIN_API_BASE_URL || 'https://admin.johnrak.online' }}
-            VITE_PORTFOLIO_SHARED_SECRET=${{ secrets.VITE_PORTFOLIO_SHARED_SECRET }}
+            VITE_PORTFOLIO_API_TOKEN=${{ vars.VITE_PORTFOLIO_API_TOKEN }}
           tags: |
             ${{ env.IMAGE }}:latest
             ${{ env.IMAGE }}:${{ github.sha }}
