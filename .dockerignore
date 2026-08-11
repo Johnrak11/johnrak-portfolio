@@ -1,0 +1,14 @@
+# Keeps the build context small and stops local env files from being copied
+# into the image. Build-time values arrive as --build-arg, not as a file.
+node_modules/
+dist/
+
+.env
+.env.*
+!.env.example
+
+.git
+.gitignore
+.gitattributes
+.github
+README.md
